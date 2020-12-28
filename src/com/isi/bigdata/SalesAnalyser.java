@@ -23,7 +23,7 @@ public class SalesAnalyser {
      */
     public static class MapClass extends Mapper<Text, Text, Text, SalesReturnTypeWritable>
     {
-        public void map(Text key, Text value, Mapper.Context context) throws IOException, InterruptedException {
+        public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
             String region;
             String country;
             String itemType;
@@ -32,14 +32,14 @@ public class SalesAnalyser {
             IntWritable offlineQuantity = new IntWritable();
 
             Configuration conf = context.getConfiguration();
-            String field = conf.get("filed");
-            StringTokenizer itr = new StringTokenizer(key.toString(), "\n");
+            String field = conf.get("field");
+            StringTokenizer stringTokenizer = new StringTokenizer(key.toString(), "\n");
             Text textLine = new Text();
 
             switch (field) {
                 case "country":
-                    while (itr.hasMoreTokens()) {
-                        textLine.set(itr.nextToken());
+                    while (stringTokenizer.hasMoreTokens()) {
+                        textLine.set(stringTokenizer.nextToken());
                         country = textLine.toString().split(",")[1];
                         if (!country.equals("Country")) {
                             total = textLine.toString().split(",")[13];
@@ -50,8 +50,8 @@ public class SalesAnalyser {
                     }
                     break;
                 case "region":
-                    while (itr.hasMoreTokens()) {
-                        textLine.set(itr.nextToken());
+                    while (stringTokenizer.hasMoreTokens()) {
+                        textLine.set(stringTokenizer.nextToken());
                         region = textLine.toString().split(",")[0];
                         if (!region.equals("Region")) {
                             total = textLine.toString().split(",")[13];
@@ -62,10 +62,10 @@ public class SalesAnalyser {
                     }
                     break;
                 case "item-type":
-                    while (itr.hasMoreTokens()) {
+                    while (stringTokenizer.hasMoreTokens()) {
                         SalesReturnTypeWritable salesReturnTypeWritable = new SalesReturnTypeWritable();
                         DoubleWritable itemTotal;
-                        textLine.set(itr.nextToken());
+                        textLine.set(stringTokenizer.nextToken());
                         itemType = textLine.toString().split(",")[2];
                         if (!itemType.equals("Item Type")) {
                             total = textLine.toString().split(",")[13];
