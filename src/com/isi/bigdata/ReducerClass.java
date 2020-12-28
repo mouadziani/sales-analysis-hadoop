@@ -17,19 +17,22 @@ public class ReducerClass extends Reducer<Text, SalesReturnTypeWritable,Text,Tex
         double totalAmount = 0;
 
         String field = context.getConfiguration().get("field");
-        if(!field.equals("item-type")) {
+        if(!field.equals("itemType"))
+        {
             for(SalesReturnTypeWritable value: values){
                 totalAmount += value.getTotal().get();
             }
             context.write(key, new Text(String.valueOf(totalAmount)));
-        } else {
+        }
+        else
+        {
             for(SalesReturnTypeWritable value: values){
                 totalAmount += value.getTotal().get();
                 offlineQuantity += value.getOfflineQuantity().get();
                 onlineQuantity += value.getOnlineQuantity().get();
             }
 
-            String result = "\n la quantité en ligne : " + onlineQuantity + " ==== La quantité en hors ligne : " + offlineQuantity + " === Total de profit : " + totalAmount;
+            String result = "\n Quantité en ligne : " + onlineQuantity + " ==== Quantité en hors ligne : " + offlineQuantity + " === Total de profit : " + totalAmount;
             context.write(key, new Text(result));
         }
         totalAmount = 0;

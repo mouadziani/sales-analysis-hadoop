@@ -17,15 +17,15 @@ public class Main
         String field = args[2];
         configuration.set("field", field);
         System.out.println(args[2]);
-        Job job = Job.getInstance(configuration, "SalesAnalyser");
+        Job job = Job.getInstance(configuration, "Sales Analyser");
         job.setMapperClass(MapperClass.class);
         job.setReducerClass(ReducerClass.class);
 
-        // Set the MapClass output key/value config
+        // Set the MapperClass output key/value config
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
 
-        // Set the ReduceClass output key/value config
+        // Set the ReducerClass output key/value config
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(SalesReturnTypeWritable.class);
 
